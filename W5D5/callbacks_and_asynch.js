@@ -1,0 +1,117 @@
+// Hammertime
+
+window.setTimeout(function () {
+  alert('HAMMERTIME');
+}, 5000);
+
+function hammerTime(time) {
+  window.setTimeout(function () {
+    alert(`${time} is hammertime!`);
+  });
+}
+
+
+// Some tea? Some biscuits?
+
+const readline = require('readline');
+
+const reader = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function someTeaAndBiscuits() {
+  let firstAnswer = '';
+  let secondAnswer = '';
+
+  reader.question ("Would you like some tea?", (res) => {
+    firstAnswer = res;
+    console.log(`${firstAnswer}`);
+  });
+
+  reader.question ("Would you like some biscuits?", (res) => {
+    secondAnswer = res;
+    console.log(`So you ${firstAnswer} want tea and you ${secondAnswer}
+                want biscuits.`);
+  });
+
+  reader.close();
+
+}
+
+// *** their non-working solution
+
+// function teaAndBiscuits () {
+//   let first, second;
+//
+//   reader.question('Would you like some tea?', (res) => {
+//     first = res;
+//     console.log(`You replied ${res}.`);
+//   });
+//
+//   reader.question('Would you like some biscuits?', (res) => {
+//     second = res;
+//     console.log(`You replied ${res}.`);
+//   });
+//
+//   const firstRes = (first === 'yes') ? 'do' : 'don\'t';
+//   const secondRes = (second === 'yes') ? 'do' : 'don\'t';
+//   console.log(`So you ${firstRes} want tea and you ${secondRes} want biscuits.`);
+//   reader.close();
+// }
+
+// *** refactored?
+
+function teaAndBiscuits () {
+  let first, second;
+
+  reader.question('Would you like some tea?', (res) => {
+    first = res;
+    if (first === 'yes') {
+      const firstRes = 'do';
+      reader.question('Would you like some biscuits?', (res) => {
+        second = res;
+        console.log(`You replied ${res}.`);
+      });
+      if (second === 'yes') {
+        const secondRes = 'do';
+        console.log(`So you ${firstRes} want tea and
+          you ${secondRes} want biscuits.`);
+      } else {
+        const secondRes = 'don\'t';
+        console.log(`So you ${firstRes} want tea and
+          you ${secondRes} want biscuits.`);
+        reader.close();
+      }
+    } else {
+      const firstRes = 'don\'t';
+      console.log(`So you ${firstRes} want tea.`);
+      reader.close();
+    }
+  });
+}
+
+
+// *** actual solution
+
+// const readline = require('readline');
+//
+// const reader = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// });
+//
+// function teaAndBiscuits () {
+//   reader.question('Would you like some tea?', function (res) {
+//     console.log(`You replied ${res}.`);
+//     reader.question('Would you like some biscuits?', function (res2) {
+//       console.log(`You replied ${res2}.`);
+//
+//       const first = (res === 'yes') ? 'do' : 'don\'t';
+//       const second = (res2 === 'yes') ? 'do' : 'don\'t';
+//
+//       console.log(`So you ${first} want tea and you ${second} want biscuits.`);
+//       reader.close();
+//     });
+//   });
+// }
